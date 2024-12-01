@@ -1,8 +1,7 @@
 # Translate App
 
 # Overview
-This application implements a Translate App designed for Android. 
-The app allows users to translate words or text between English and Spanish, making it easier to understand content in those languages. 
+The app, designed for Android, allows users to translate words or text between English and Spanish, making it easier to understand content in those languages. 
 All the implementation was done using Kotlin.
 The app connects to API Rest service to translate the information.
 
