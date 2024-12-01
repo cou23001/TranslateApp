@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.padding
 
 @Composable
 fun AppHeader() {
+    // Title
     Text(
-        text = "AI Translate",
+        text = "Translate App",
         style = androidx.compose.material3.MaterialTheme.typography.displayMedium,
         modifier = Modifier.padding(16.dp)
     )

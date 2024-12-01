@@ -10,6 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.translateapp.BuildConfig
 import kotlinx.coroutines.*
 import com.example.translateapp.data.ApiClient
+import com.example.translateapp.ui.components.AppHeader
+import com.example.translateapp.data.ApiHelper
 
 @Composable
 fun ApiScreen(
@@ -52,7 +54,7 @@ fun ApiScreen(
             fun translate(from: String, to: String) {
                 coroutineScope.launch {
                     translationResult = ApiClient.apiConnection(
-                        buildApiUrl(from, to),
+                        ApiHelper.buildApiUrl(from, to),
                         location,
                         apiKey,
                         inputWord
@@ -105,22 +107,6 @@ fun ApiScreen(
             Text("Go to Favorites")
         }
     }
-}
-
-@Composable
-fun AppHeader() {
-    // Displays the application header (title)
-    Text(
-        text = "Translate App",
-        style = MaterialTheme.typography.displayMedium,
-        modifier = Modifier.padding(16.dp)
-    )
-}
-
-// Helper function to build the API URL
-fun buildApiUrl(from: String, to: String): String {
-    val apiUrl = BuildConfig.API_URL
-    return "$apiUrl?from=$from&to=$to"
 }
 
 @Preview(showBackground = true)
