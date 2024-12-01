@@ -28,6 +28,7 @@ To get started with the Translate App, follow these steps:
 2. Open the project in Android Studio
 3. Ensure you have the necessary Android SDK and Kotlin dependencies installed
 4. Build and run the app using the IDE or command line
+5. Add the local.properties file with API_KEY, API_URL and API_LOC information
 
 # Useful Websites
 
