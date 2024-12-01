@@ -17,30 +17,36 @@ import com.example.translateapp.ui.theme.TranslateTheme
 
 @Composable
 fun FavoritesScreen(
-    favorites: List<String>, // The list of favorite translations
+    favorites: List<String>, // The list of favorite translations passed as a parameter
     onBack: () -> Unit // Callback to return to the previous screen
 ) {
+    // Column layout that arranges child elements vertically
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top
+            .fillMaxSize() // Makes the Column take up the full screen size
+            .padding(16.dp), // Adds padding around the column
+        verticalArrangement = Arrangement.Top // Aligns children at the top of the column
     ) {
-        // Header
+        // Header displaying the title of the screen
         Text(
-            text = "Favorites",
-            style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
+            text = "Favorites", // The title text
+            style = MaterialTheme.typography.displayMedium, // Applies the display medium typography style
+            modifier = Modifier.padding(bottom = 16.dp) // Adds space below the title
         )
 
+        // Check if the favorites list is empty
         if (favorites.isEmpty()) {
+            // If there are no favorites, display a message
             Text(
                 text = "No favorites yet!",
                 style = MaterialTheme.typography.bodyMedium
             )
         } else {
+            // If there are favorites, display them in a scrollable list
             LazyColumn {
+                // Iterate over the favorites list and display each item
                 items(favorites) { favorite ->
+                    // Display each favorite item as a Text widget
                     Text(
                         text = favorite,
                         style = MaterialTheme.typography.bodyLarge,
@@ -50,7 +56,7 @@ fun FavoritesScreen(
             }
         }
 
-        // Back Button
+        // Back Button at the bottom of the screen to navigate back
         Button(onClick = onBack, modifier = Modifier.padding(top = 16.dp)) {
             Text("Back")
         }
@@ -60,6 +66,7 @@ fun FavoritesScreen(
 @Preview(showBackground = true)
 @Composable
 fun FavoritesScreenPreview() {
+    // Previews the FavoritesScreen
     TranslateTheme {
         FavoritesScreen(
             favorites = listOf("Hello -> Hola", "World -> Mundo"),
