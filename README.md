@@ -11,8 +11,7 @@ The app connects to API Rest service to translate the information.
 # Future Work
 The objective of the solution is to transition to a mobile app on Android devices. Future features may include:
 - Voice translation
-- Offline translation support
-- Integration with additional language APIs
+- Local storage
 
 # Development Environment
 
