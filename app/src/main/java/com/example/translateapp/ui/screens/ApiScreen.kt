@@ -13,12 +13,12 @@ import com.example.translateapp.data.ApiClient
 
 @Composable
 fun ApiScreen(
-    onNavigateToFavorites: () -> Unit,
-    onAddFavorite: (String) -> Unit
+    onNavigateToFavorites: () -> Unit, // Callback to navigate to the Favorites screen
+    onAddFavorite: (String) -> Unit // Callback to add a translation to the favorites list
 ) {
-    var inputWord by remember { mutableStateOf("") }
-    var translationResult by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
+    var inputWord by remember { mutableStateOf("") } // Stores the word or phrase entered by the user
+    var translationResult by remember { mutableStateOf("") } // Stores the result of the translation
+    val coroutineScope = rememberCoroutineScope() // Scope for launching coroutines
 
     Column(
         modifier = Modifier
@@ -26,22 +26,24 @@ fun ApiScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Top
     ) {
+        // Retrieves the API location and key from the BuildConfig
         val location = BuildConfig.API_LOC
         val apiKey = BuildConfig.API_KEY
 
-        // Header
+        // Header displaying the application name
         AppHeader()
 
-        // Input field for the word to translate
+        // Input field for the word/phrase to be translated
         OutlinedTextField(
-            value = inputWord,
-            onValueChange = { inputWord = it },
-            label = { Text("Enter a word or phrase to translate") },
-            modifier = Modifier.fillMaxWidth()
+            value = inputWord, // The current input value
+            onValueChange = { inputWord = it }, // Updates inputWord when the user types
+            label = { Text("Enter a word or phrase to translate") }, // Placeholder text
+            modifier = Modifier.fillMaxWidth() // Makes the input field take up full width
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Row layout for translation buttons
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -58,12 +60,14 @@ fun ApiScreen(
                 }
             }
 
+            // Button to translate from English to Spanish
             Button(
                 onClick = { translate("en", "es") },
                 modifier = Modifier.wrapContentWidth()
             ) {
                 Text("English to Spanish")
             }
+            // Button to translate from Spanish to English
             Button(
                 onClick = { translate("es", "en") },
                 modifier = Modifier.wrapContentWidth()
@@ -72,14 +76,17 @@ fun ApiScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp)) // Adds space between the translation buttons and result
 
+        // If the translation result is not empty, display the result and options
         if (translationResult.isNotEmpty()) {
+            // Displays the translation result
             Text(
                 text = translationResult,
                 style = MaterialTheme.typography.bodyMedium
             )
 
+            // Button to add the translation to favorites
             Button(
                 onClick = { onAddFavorite(translationResult) },
                 modifier = Modifier.padding(top = 8.dp)
@@ -90,6 +97,7 @@ fun ApiScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Button to navigate to the Favorites screen
         Button(
             onClick = onNavigateToFavorites,
             modifier = Modifier.fillMaxWidth()
@@ -101,8 +109,9 @@ fun ApiScreen(
 
 @Composable
 fun AppHeader() {
+    // Displays the application header (title)
     Text(
-        text = "AI Translate",
+        text = "Translate App",
         style = MaterialTheme.typography.displayMedium,
         modifier = Modifier.padding(16.dp)
     )
@@ -117,6 +126,7 @@ fun buildApiUrl(from: String, to: String): String {
 @Preview(showBackground = true)
 @Composable
 fun ApiScreenPreview() {
+    // Previews the ApiScreen
     ApiScreen(
         onNavigateToFavorites = {},
         onAddFavorite = {}
