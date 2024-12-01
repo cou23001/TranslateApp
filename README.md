@@ -5,7 +5,7 @@ The app, designed for Android, allows users to translate words or text between E
 All the implementation was done using Kotlin.
 The app connects to API Rest service to translate the information.
 
-[Software Demo Video](https://youtube.com)
+[Software Demo Video](https://youtu.be/74rVsHB_Ouc)
 
 # Future Work
 The objective of the solution is to transition to a mobile app on Android devices. Future features may include:
