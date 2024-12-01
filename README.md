@@ -2,7 +2,7 @@
 
 # Overview
 This application implements a Translate App designed for Android. 
-The app allows users to translate text between multiple languages, making it easier to understand content in different languages. 
+The app allows users to translate words or text between English and Spanish, making it easier to understand content in those languages. 
 All the implementation was done using Kotlin.
 
 [Software Demo Video](https://youtube.com)
@@ -23,12 +23,12 @@ The objective of the solution is to transition to a mobile app on Android device
 To get started with the Translate App, follow these steps:
 1. Clone this repository:
     ```bash
-    git clone https://github.com/yourusername/translate-app.git
+    git clone https://github.com/cou23001/cou23001/TranslateApp.git
     ```
 2. Open the project in Android Studio.
 3. Ensure you have the necessary Android SDK and Kotlin dependencies installed.
 4. Build and run the app using the IDE or command line.
-5. 
+
 # Useful Websites
 
 - [Kotlin - official site](https://https://kotlinlang.org/)
