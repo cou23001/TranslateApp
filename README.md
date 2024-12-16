@@ -34,3 +34,4 @@ To get started with the Translate App, follow these steps:
 - [Kotlin - official site](https://https://kotlinlang.org/)
 - [Kotlin Tutorial](https://www.programiz.com/kotlin-programming)
 - [Android Developer Documentation](https://developer.android.com/)
+- [Firebase Tutorial](https://firebase.google.com/docs/firestore)
