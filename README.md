@@ -6,7 +6,7 @@ The app allows to create an user and store favorite translated words.
 All the implementation was done using Kotlin.
 The app connects to API Rest service to translate the information.
 
-[Software Demo Video](https://youtu.be/74rVsHB_Ouc)
+[Software Demo Video](https://youtu.be/ftlRECARPlo)
 
 # Future Work
 Future features may include:
