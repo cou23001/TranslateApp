@@ -16,7 +16,8 @@ import com.example.translateapp.data.ApiHelper
 @Composable
 fun ApiScreen(
     onNavigateToFavorites: () -> Unit, // Callback to navigate to the Favorites screen
-    onAddFavorite: (String) -> Unit // Callback to add a translation to the favorites list
+    onAddFavorite: (String, String) -> Unit, // Callback to add a translation to the favorites list
+    onLogout: () -> Unit,
 ) {
     var inputWord by remember { mutableStateOf("") } // Stores the word or phrase entered by the user
     var translationResult by remember { mutableStateOf("") } // Stores the result of the translation
@@ -90,7 +91,7 @@ fun ApiScreen(
 
             // Button to add the translation to favorites
             Button(
-                onClick = { onAddFavorite(translationResult) },
+                onClick = { onAddFavorite(inputWord, translationResult) },
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text("Add to Favorites")
@@ -106,6 +107,14 @@ fun ApiScreen(
         ) {
             Text("Go to Favorites")
         }
+
+        // Button to logout
+        Button(
+            onClick = onLogout,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Exit")
+        }
     }
 }
 
@@ -115,6 +124,7 @@ fun ApiScreenPreview() {
     // Previews the ApiScreen
     ApiScreen(
         onNavigateToFavorites = {},
-        onAddFavorite = {}
+        onAddFavorite = {} as (String, String) -> Unit,
+        onLogout = {}
     )
 }

@@ -6,6 +6,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // Add the dependency for the Google services Gradle plugin
+    //id("com.android.application")
+    id("com.google.gms.google-services")
+    //id 'com.android.application'
+    //id 'com.google.gms.google-services' // Add this plugin
 }
 
 // Load local.properties
@@ -82,4 +87,13 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+    // Add Firebase Authentication
+    implementation ("com.google.firebase:firebase-auth:22.1.0")
+    // Add Firestore
+    implementation ("com.google.firebase:firebase-firestore:24.7.0")
 }

@@ -46,7 +46,7 @@ object ApiClient {
                             .getJSONObject(0) // Get the first object in the array
                             .getJSONArray("translations") // Get the "translations" array
                         val translatedText = translations.getJSONObject(0).getString("text") // Extract the translated text
-                        "Translated text: $translatedText" // Return the translated text
+                        translatedText // Return the translated text
                     } ?: "Empty response body" // Return message if the response body is null
                 } else {
                     // Return a message with the error code and message if the response was unsuccessful
