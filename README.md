@@ -2,15 +2,15 @@
 
 # Overview
 The app, designed for Android, allows users to translate words or text between English and Spanish, making it easier to understand content in those languages. 
+The app allows to create an user and store favorite translated words.
 All the implementation was done using Kotlin.
 The app connects to API Rest service to translate the information.
 
 [Software Demo Video](https://youtu.be/74rVsHB_Ouc)
 
 # Future Work
-The objective of the solution is to transition to a mobile app on Android devices. Future features may include:
-- Voice translation
-- Local storage
+Future features may include:
+- Updated interface
 
 # Development Environment
 
