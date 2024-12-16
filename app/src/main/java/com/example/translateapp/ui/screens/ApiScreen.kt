@@ -13,11 +13,15 @@ import com.example.translateapp.data.ApiClient
 import com.example.translateapp.ui.components.AppHeader
 import com.example.translateapp.data.ApiHelper
 
+/**
+ * A Composable function that provides a user interface for translating words or phrases
+ * and managing favorite translations.
+ */
 @Composable
 fun ApiScreen(
     onNavigateToFavorites: () -> Unit, // Callback to navigate to the Favorites screen
     onAddFavorite: (String, String) -> Unit, // Callback to add a translation to the favorites list
-    onLogout: () -> Unit,
+    onLogout: () -> Unit, // Callback to logout
 ) {
     var inputWord by remember { mutableStateOf("") } // Stores the word or phrase entered by the user
     var translationResult by remember { mutableStateOf("") } // Stores the result of the translation
