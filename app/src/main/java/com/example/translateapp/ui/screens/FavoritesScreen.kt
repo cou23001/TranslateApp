@@ -88,11 +88,11 @@ fun FavoritesScreen(
                 style = MaterialTheme.typography.bodyMedium
             )
         } else {
-            // If there are favorites, display them in a scrollable list
+            // If there are favorites and translated words, display them in a scrollable list
             LazyColumn {
-                // Iterate over the favorites list and display each item
+                // Iterate over the favorites and translated words list and display each item
                 items(favorites.zip(translated)) { (favorite, translation) ->
-                    // Display each favorite item as a Text widget
+                    // Display each favorite -> translation item as a Text widget
                     Text(
                         text = "$favorite -> $translation",
                         style = MaterialTheme.typography.bodyLarge,
@@ -102,16 +102,22 @@ fun FavoritesScreen(
             }
         }
 
+        // Check if there are any favorites before displaying the "Clear Favorites" button
         if (favorites.isNotEmpty()) {
+            // Button to clear all favorites
             Button(
                 onClick = {
+                    // Invoke the callback to clear favorites locally
                     onClearFavorites()
+                    // Display a toast message confirming the action
                     Toast.makeText(context, "Favorites cleared", Toast.LENGTH_SHORT).show()
+                    // Get the current user's ID to clear their favorites from Firestore
                     val userId = mAuth.currentUser?.uid
                     if (userId != null) {
+                        // Clear the user's favorites using the FavoritesManager
                         favoritesManager.clearFavorites(userId)
-                        //clearFavoritesFromFirebase(userId) // Clear from Firestore
                     }
+                    // Navigate back to the previous screen
                     onBack()
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -120,6 +126,7 @@ fun FavoritesScreen(
             }
         }
 
+        // Button to navigate back to the previous screen
         Button(
             onClick = onBack,
             modifier = Modifier.fillMaxWidth()
