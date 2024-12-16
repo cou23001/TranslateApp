@@ -40,7 +40,8 @@ fun FavoritesScreen(
     favorites: MutableList<String> = mutableListOf(),
     translated: MutableList<String> = mutableListOf(),
     onBack: () -> Unit, // Callback to return to the previous screen
-    onClearFavorites: () -> Unit
+    onClearFavorites: () -> Unit,
+    //onClearTranslatedWords: () -> Unit
 ) {
     // Retrieves the current context, used for displaying Toast messages
     val context = LocalContext.current
@@ -51,7 +52,7 @@ fun FavoritesScreen(
     // FavoritesManager instance to manage favorite data
     val favoritesManager = FavoritesManager()
 
-    // State for loading favorites from Cloud Firestore
+    // State for loading favorites and translated words from Cloud Firestore
     var isLoading by remember { mutableStateOf(true) }
 
     // Load favorites from Firestore on initial composition
@@ -64,7 +65,7 @@ fun FavoritesScreen(
                 favorites.clear() // Clear existing favorites
                 translated.clear() // Clear existing translated
                 favorites.addAll(loadedFavorites) // Add loaded favorites
-                translated.addAll(loadedTranslations) // Add loaded transalations
+                translated.addAll(loadedTranslations) // Add loaded translations
                 isLoading = false
             }
         } else {
@@ -155,7 +156,8 @@ fun FavoritesScreenPreview() {
         FavoritesScreen(
             favorites = mutableStateListOf("Hello -> Hola", "World -> Mundo"),
             onBack = { },
-            onClearFavorites = { }
+            onClearFavorites = { },
+            //onClearTranslatedWords = { }
         )
     }
 }

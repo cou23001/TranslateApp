@@ -124,7 +124,7 @@ import com.example.translateapp.ui.components.AppHeader
         var favorites by remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
 
         // State to manage the list of translations corresponding to the favorite words
-        var translations by remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
+        var translated by remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
 
         // State to track the currently displayed screen ("Main", "Favorites", or "Login")
         var currentScreen by remember { mutableStateOf("Main") } // Tracks the current screen
@@ -137,14 +137,14 @@ import com.example.translateapp.ui.components.AppHeader
                 onAddFavorite = { favoriteWord, translatedWord ->
                     // Add new favorite word and its translation to the lists
                     val updatedFavoriteWords = favorites + favoriteWord
-                    val updatedTranslatedWords = translations + translatedWord
+                    val updatedTranslatedWords = translated + translatedWord
 
                     // Store the updated favorites using FavoritesManager
                     favoritesManager.storeFavorites(updatedFavoriteWords, updatedTranslatedWords) // Store both favoriteWord and translatedWord
 
                     // Update the state with the new lists
                     favorites = updatedFavoriteWords as MutableList<String>
-                    translations = updatedTranslatedWords as MutableList<String>
+                    translated = updatedTranslatedWords as MutableList<String>
                 },
 
                 // To Exit
@@ -157,9 +157,11 @@ import com.example.translateapp.ui.components.AppHeader
             // Favorites screen
             "Favorites" -> FavoritesScreen(
                 favorites = favorites, // Pass the list of favorite words
+                translated = translated, // Pass the list of translations words
                 onBack = { currentScreen = "Main" }, // Navigate back to the main screen
                 onClearFavorites = {
                     favorites.clear() // Clear the local favorites list
+                    translated.clear() // Clear the local translated list
                 }
             )
 

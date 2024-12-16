@@ -16,6 +16,7 @@ Future features may include:
 
 - Android Studio Ladybug | 2024.2.1 Patch 2 
 - Kotlin version 2.0.21-release-482 (JRE 22.0.1+8-16)
+- Firebase
 
 # Installation
 To get started with the Translate App, follow these steps:
