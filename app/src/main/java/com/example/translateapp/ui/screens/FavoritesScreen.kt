@@ -30,6 +30,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 
 
+/**
+ * Composable function that displays a screen with the list of favorite translations.
+ * The user can view, clear the list of favorites, and navigate back to the previous screen.
+ *
+ */
 @Composable
 fun FavoritesScreen(
     favorites: MutableList<String> = mutableListOf(),
@@ -37,10 +42,13 @@ fun FavoritesScreen(
     onBack: () -> Unit, // Callback to return to the previous screen
     onClearFavorites: () -> Unit
 ) {
-
+    // Retrieves the current context, used for displaying Toast messages
     val context = LocalContext.current
-    // Firebase
+
+    // Firebase authentication instance
     val mAuth = FirebaseAuth.getInstance()
+
+    // FavoritesManager instance to manage favorite data
     val favoritesManager = FavoritesManager()
 
     // State for loading favorites from Cloud Firestore
@@ -136,11 +144,13 @@ fun FavoritesScreen(
     }
 }
 
+/**
+ * Previews the FavoritesScreen
+ */
 @SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun FavoritesScreenPreview() {
-    // Previews the FavoritesScreen
     TranslateTheme {
         FavoritesScreen(
             favorites = mutableStateListOf("Hello -> Hola", "World -> Mundo"),
