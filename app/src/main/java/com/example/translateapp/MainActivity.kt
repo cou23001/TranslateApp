@@ -34,29 +34,46 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import com.example.translateapp.ui.components.AppHeader
 
+    /**
+     * MainActivity is the entry point of the application and handles the initialization of the composable navigation.
+     */
     class MainActivity : ComponentActivity() {
+        /**
+         * Overrides the onCreate method to set the content of the activity.
+         * The content is defined by the `AppNavigation` composable, which manages the navigation between screens.
+         */
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContent {
-                AppNavigation()
+                AppNavigation()  // Launches the app's navigation composable
             }
         }
     }
 
+    /**
+     * Composable function to handle navigation between different screens in the app.
+     *
+     * The navigation is managed using a `currentScreen` state variable that determines which screen to display.
+     */
     @Composable
     fun AppNavigation() {
+        // State variable to track the current screen ("login" or "Main")
         var currentScreen by remember { mutableStateOf("login") }
 
+        // Conditional navigation logic based on the current screen
         when (currentScreen) {
+            // Displays the LoginScreen composable, which allows the user to sign in or sign up.
             "login" -> LoginScreen(
                 onSignIn = { email, password, context ->
                     FirebaseAuth.getInstance()
                         .signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+                                // Show success message on account creation
                                 Toast.makeText(context, "Signed in successfully", Toast.LENGTH_SHORT).show()
                                 currentScreen = "Main" // Navigate on success
                             } else {
+                                // Show error message on failure
                                 Toast.makeText(
                                     context,
                                     "Sign in failed: ${task.exception?.message}",
@@ -66,6 +83,7 @@ import com.example.translateapp.ui.components.AppHeader
                         }
                 },
                 onSignUp = { email, password, context ->
+                    // Handle sign-up using Firebase Authentication
                     FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
@@ -81,62 +99,74 @@ import com.example.translateapp.ui.components.AppHeader
                         }
                 }
             )
+            /**
+             * Displays the TranslateApp composable after a successful login.
+             */
             "Main" -> TranslateApp(onLogout = {})
         }
     }
 
 
+    /**
+     * Composable function that represents the main structure of the Translate application.
+     *
+     * This function manages the navigation between different screens of the app: the main translation screen,
+     * the favorites screen, and the login screen. It handles user actions, state management, and
+     * interaction with the `FavoritesManager` for storing and clearing favorites.
+     */
     @SuppressLint("MutableCollectionMutableState")
     @Composable
     fun TranslateApp(onLogout: () -> Unit) {
+        // Initialize FavoritesManager for managing favorites
         val favoritesManager = FavoritesManager()
 
+        // State to manage the list of favorite words
         var favorites by remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
+
+        // State to manage the list of translations corresponding to the favorite words
         var translations by remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
 
-        //var favorites by remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
+        // State to track the currently displayed screen ("Main", "Favorites", or "Login")
         var currentScreen by remember { mutableStateOf("Main") } // Tracks the current screen
 
-        // A conditional block to switch between the "Main" screen and the "Favorites" screen
+        // Screen navigation logic
         when (currentScreen) {
-            // When the current screen is "Main", show the ApiScreen
+            // Main translation screen
             "Main" -> ApiScreen (
                 onNavigateToFavorites = { currentScreen = "Favorites" },
-                // onAddFavorite callback adds a new favorite translation to the list
                 onAddFavorite = { favoriteWord, translatedWord ->
-                    //val favoriteWord = inputWord // This is the original word entered by the user
-                    //val translatedWord = translation // This is the translated word
-
-                    // Add the favoriteWord and translatedWord to their respective lists
+                    // Add new favorite word and its translation to the lists
                     val updatedFavoriteWords = favorites + favoriteWord
                     val updatedTranslatedWords = translations + translatedWord
 
+                    // Store the updated favorites using FavoritesManager
                     favoritesManager.storeFavorites(updatedFavoriteWords, updatedTranslatedWords) // Store both favoriteWord and translatedWord
+
+                    // Update the state with the new lists
                     favorites = updatedFavoriteWords as MutableList<String>
                     translations = updatedTranslatedWords as MutableList<String>
                 },
 
-                // onToExit
+                // To Exit
                 onLogout = {
-                    performLogout()
-                    onLogout()
-                    currentScreen = "Login"
+                    performLogout() // Perform any required logout operations
+                    onLogout() // Trigger the onLogout callback
+                    currentScreen = "Login" // Navigate to the login screen
                 }
             )
-            // When the current screen is "Favorites", show the FavoritesScreen composable
+            // Favorites screen
             "Favorites" -> FavoritesScreen(
-                favorites = favorites,
-                // onBack callback switches the current screen back to "Main"
-                onBack = { currentScreen = "Main" },
+                favorites = favorites, // Pass the list of favorite words
+                onBack = { currentScreen = "Main" }, // Navigate back to the main screen
                 onClearFavorites = {
-                    //favoritesManager.clearFavorites() // Clear favorites from Firestore
-                    favorites.clear() // Clear the local list as well
+                    favorites.clear() // Clear the local favorites list
                 }
             )
+
+            // Login screen
             "Login" -> LoginScreen(
                 onSignIn = { email, password, context ->
-                    // Handle sign-in logic here
-                    // For example, you can call Firebase sign-in
+                    // Handle sign-in with Firebase
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
@@ -149,8 +179,7 @@ import com.example.translateapp.ui.components.AppHeader
                         }
                 },
                 onSignUp = { email, password, context ->
-                    // Handle sign-up logic here
-                    // For example, you can call Firebase sign-up
+                    // Handle sign-up with Firebase
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
@@ -166,7 +195,10 @@ import com.example.translateapp.ui.components.AppHeader
         }
     }
 
-    fun performLogout() {
+/**
+ * Function to logout from Firebase
+ */
+fun performLogout() {
         try {
             FirebaseAuth.getInstance().signOut()
         } catch (e: Exception) {
@@ -175,15 +207,24 @@ import com.example.translateapp.ui.components.AppHeader
         }
     }
 
+/**
+ * A Composable function that displays a login screen with options to sign in or sign up.
+ *
+ * Accepts the email, password, and the application context as parameters.
+ */
 @Composable
 fun LoginScreen(
-    onSignIn: (String, String, Context) -> Unit,
-    onSignUp: (String, String, Context) -> Unit
+    onSignIn: (String, String, Context) -> Unit, // Callback for signing in
+    onSignUp: (String, String, Context) -> Unit // Callback for signing up
 ) {
-    val context = LocalContext.current // Get context here
+    // Local context from the Android environment
+    val context = LocalContext.current
+    // Holds the email input by the user
     var email by remember { mutableStateOf("") }
+    // Holds the password input by the user
     var password by remember { mutableStateOf("") }
 
+    // Layout container
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -193,7 +234,11 @@ fun LoginScreen(
     ) {
         // Header displaying the application name
         AppHeader()
+
+        // Spacer for vertical spacing between header and input fields
         Spacer(modifier = Modifier.height(32.dp))
+
+        // Email input field
         TextField(
             value = email,
             onValueChange = { email = it },
@@ -201,8 +246,10 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Spacer for spacing between email and password fields
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Password input field with visual transformation for hiding text
         TextField(
             value = password,
             onValueChange = { password = it },
@@ -211,13 +258,17 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation()
         )
 
+        // Spacer for spacing between the password field and the Sign In button
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Sign In button
         Button(
             onClick = {
+                // Checks if the email and password fields are not empty
                 if (email.isNotEmpty() && password.isNotEmpty()) {
                     onSignIn(email, password, context)
                 } else {
+                    // Displays a Toast message if fields are empty
                     Toast.makeText(context, "Please enter an email and password", Toast.LENGTH_SHORT).show()
                 }
             },
@@ -226,13 +277,17 @@ fun LoginScreen(
             Text("Sign In")
         }
 
+        // Spacer for spacing between the Sign In and Sign Up buttons
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Sign Up button
         Button(
             onClick = {
+                // Checks if the email and password fields are not empty
                 if (email.isNotEmpty() && password.isNotEmpty()) {
-                    onSignUp(email, password, context)
+                    onSignUp(email, password, context) // Calls the sign-up callback
                 } else {
+                    // Displays a Toast message if fields are empty
                     Toast.makeText(context, "Please enter an email and password", Toast.LENGTH_SHORT).show()
                 }
             },
@@ -244,6 +299,9 @@ fun LoginScreen(
 }
 
 
+/**
+ * A Composable function that provides a preview of the TranslateApp.
+ */
 @Preview(showBackground = true)
 @Composable
 fun TranslateAppPreview() {
