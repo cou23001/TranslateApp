@@ -154,7 +154,7 @@ fun FavoritesScreen(
 fun FavoritesScreenPreview() {
     TranslateTheme {
         FavoritesScreen(
-            favorites = mutableStateListOf("Hello -> Hola", "World -> Mundo"),
+            favorites = mutableStateListOf("Hello -> Hola", "Apple -> Manzana"),
             onBack = { },
             onClearFavorites = { },
             //onClearTranslatedWords = { }
